@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoogleSheet</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+      <div class="title-bar" contenteditable="true">Book-1</div>
+
+      <div class="menu-bar">
+          <div>File</div>
+          <div>Edit</div>
+          <div>Help</div>
+      </div>
+
+      <div class="menu-option">
+          <div class="bui">
+            <span class="material-icons">format_bold</span>
+            <span class="material-icons">format_italic</span>
+            <span class="material-icons">format_underlined</span>
+          </div>
+          <div class="font-style">
+              <select name="" id="cell-font-style">
+                  <option value="arial">Arial</option>
+                  <option value="helvetic">Helvetica</option>
+                  <option value="open sans">Open Sans</option>
+                  <option value="clabri">Clabri</option>
+                  <option value="Times new roman">Times New Roman</option>
+              </select><select name="" id="cell-font-size">
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                  <option value="13">13</option>
+                  <option value="14">14</option>
+                  <option value="15">15</option>
+                  <option value="16">16</option>
+                  <option value="16">17</option>
+                  <option value="16">18</option>
+                  <option value="16">19</option>
+                  <option value="16">20</option>
+              </select>
+          </div>
+          <div class="alignment">
+            <span class="material-icons">format_align_left</span>
+            <span class="material-icons">format_align_center</span>
+            <span class="material-icons">format_align_right</span>
+          </div>
+          <div class="colors">
+            <span class="material-icons">format_color_text</span>
+            <span class="material-icons">format_color_fill</span>
+          </div>
+          <div class="redo">
+            <span class="material-icons">undo</span>
+            <span class="material-icons"> redo</span>
+          </div>
+      </div>
+
+      <div class="formula-bar">
+          <input id="select-cell"><input type="text" id="complete-cell">
+      </div>
+
+      <div class="grid">
+          <div class="blank"></div>
+          <div class="column-tags"></div>
+          <div class="row-number"></div>
+      </div>
+
+      <div class="sheet-bar">
+          <div>Sheet-1</div>
+      </div>
+      
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
