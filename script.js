@@ -126,35 +126,37 @@ grid.addEventListener("click",(e)=>{
 
 
 
-//for add more column-tag to the page//
-// if(i==25){
-//   while(count<26){
-//     let div=document.createElement("div");
-//     div.classList.add("column-tag-cell");
-//     let AtoZ=String.fromCharCode(65+j);
-//     div.innerText=AtoZ+String.fromCharCode((65+k));
-//     columnTags.append(div);
-//     k++;
-//     if(k==26){
-//       k=0;
-//       j++;
-//       count++;
-//     }
-//   }
-// }
 
-//for add column in the page //
-// if(j==25){
-//       while(count<26){
-//         let cell=document.createElement("div");
-//         cell.classList.add("cell");
-//         cell.contenEditable=true;
-//         row.append(cell);
-//         k++;
-//         if(k==26){
-//           k=0;
-//           m++;
-//           count++;
-//         }
-//       }
-//     }
+
+/*for add more column-tag to the page//
+if(i==25){
+  while(count<26){
+    let div=document.createElement("div");
+    div.classList.add("column-tag-cell");
+    let AtoZ=String.fromCharCode(65+j);
+    div.innerText=AtoZ+String.fromCharCode((65+k));
+    columnTags.append(div);
+    k++;
+    if(k==26){
+      k=0;
+      j++;
+      count++;
+    }
+  }
+}
+
+for add column in the page //
+if(j==25){
+      while(count<26){
+        let cell=document.createElement("div");
+        cell.classList.add("cell");
+        cell.contenEditable=true;
+        row.append(cell);
+        k++;
+        if(k==26){
+          k=0;
+          m++;
+          count++;
+        }
+      }
+    }*/
