@@ -79,7 +79,7 @@ grid.addEventListener("click",(e)=>{
 //    console.log(oldcell)
 // } 
   if(oldcell){
-    // console.log(oldcell+"previous Selected cell");
+    // console.log(oldcell); //previous selected cell
     oldcell.classList.remove("grid-selected-cell");
   }
   
