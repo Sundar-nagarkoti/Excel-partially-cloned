@@ -7,7 +7,7 @@ let columnTags=document.querySelector(".column-tags");//for column
 let formulaSelectCell=document.querySelector("#select-cell");//for selected cell display
 let grid=document.querySelector(".grid");//for selecting cell
 let oldcell;//save selected cell
-
+let dataObj={};
 
 
 for(let i=0;i<menuBarDivTag.length;i++){
@@ -51,17 +51,22 @@ for(let i=1;i<=100;i++){
    
   let row=document.createElement("div");
    row.classList.add("row");
-   
-   
+
   for(let j=0;j<26;j++){
-    
+
     // let m=0,count=0,k=0;
     let cell=document.createElement("div");
     cell.classList.add("cell");
     cell.contentEditable=true;
     let address=String.fromCharCode(65+j)+i;
     cell.setAttribute("data-address",address);
+    dataObj[address]={value:"",
+            formula:"",
+            upstream:[],
+            downstream:[]
+                      };
     row.append(cell);
+
   }
   grid.append(row);
 }//adding grid cell.
@@ -76,7 +81,7 @@ grid.addEventListener("click",(e)=>{
 //  else if(e.target.classList.contains("cell")){
 //    let cellAddress= e.target.getAttribute("data-address");
 //    formulaSelectCell.value=cellAddress;
-//    console.log(oldcell)
+    // console.log(oldcell);
 // } 
   if(oldcell){
     // console.log(oldcell); //previous selected cell
@@ -87,13 +92,14 @@ grid.addEventListener("click",(e)=>{
   e.target.classList.add("grid-selected-cell");
   let cellAddress= e.target.getAttribute("data-address");
   formulaSelectCell.value=cellAddress;
+  e.target.addEventListener("input",(e)=>{
+    console.log(e.currentTarget.value);
+  })
   oldcell=e.target;
   // console.log(oldcell);
   }
 
 })//selecting cell from grid.
-
-
 
 
 
