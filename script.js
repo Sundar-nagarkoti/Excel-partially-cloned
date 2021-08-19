@@ -104,23 +104,24 @@ grid.addEventListener("click",(e)=>{
     dataObj[address].upstream=[];
 
     let currCellDownStream=dataObj[address].downstream;
-    for(let i=0;i<currCellDownStream.length;i++){
+    for(let i=0;i<currCellDownStream.length;i++){//we update the vaule so we are updating it's downstream element value bcz downstream element depened on that cell.
       updateDownstreamElements(currCellDownStream[i]);
       }
-  });//for DI in grid Updateing downstream and upstream 
+  });//for DI(Direct Input) in grid Updateing downstream and upstream 
+
   oldcell=e.target;
-  
+
   // console.log(oldcell);
   }
 
 });//selecting cell from grid.
 
-console.log(dataObj);
+// console.log(dataObj);
 
 function removeFromUpstream(dependent, onWhicItIsDepending){
   let newDownStream=[];
 
-  let oldDownStream=dataObj[onWhicItIsDepending].downstream; //we go to the downstream of onwhich element depending and remove it from its downstreaml.
+  let oldDownStream=dataObj[onWhicItIsDepending].downstream; //we go to the downstream of onwhich element depending and remove it from its downstream.
   
   for(let i=0;i<oldDownStream.length;i++){
   if(oldDownStream[i] != dependent){ 
@@ -130,9 +131,40 @@ function removeFromUpstream(dependent, onWhicItIsDepending){
   dataObj[onWhicItIsDepending].downstream=newDownStream;
 }
 
-function updateDownstreamElements(ele){
+function updateDownstreamElements(eleAddress){
   let valueobj={};
+  let currCellUpstream=dataObj[eleAddress].upstream;
+  for(let i=0;i<currCellUpstream.length;i++)
+   {
+     let upstreamCellAddress= currCellUpstream[i]
+     let upstreamCellValue=dataObj[eleaAddress].value;
+      
+     valueobj[upstreamCellAddress]=upstreamCellValue;
+   } 
+
+   let currFormula=dataObj[eleAddress].formula;
+   let formulaArr=currFormula.split(" ");
+
+   for(let i=0;i<formulaArr.length;i++){
+     if(valueobj[formulaArr[i]]){
+       formulaArr[i]=valueobj[formulaArr[i]];
+     }
+   }
+
+  currFormula=formulaArr.join(" ");
+  let newValue=eval(currFormula);
   
+  dataObj[eleAddress].value=newValue;
+
+  let cellOnUI=document.querySelector(`[data-address=${eleAddress}]`);
+  cellOnUI.innerText=newValue;
+
+  let currCellDownStream=dataObj[eleAddress].downstream;
+  if(currCellDownStream.length>0){  
+  for(let k=0;k<currCellDownStream.length;k++){
+      updateDownstreamElements(currCellDownStream[k]);
+      }
+    }
 }
 
 
