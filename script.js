@@ -93,18 +93,47 @@ grid.addEventListener("click",(e)=>{
   let cellAddress= e.target.getAttribute("data-address");
   formulaSelectCell.value=cellAddress;
   e.target.addEventListener("input",(e)=>{
-    console.log(e.currentTarget.value);
-  })
+    // console.log(e.currentTarget.value);
+    let address=e.currentTarget.getAttribute("data-address");
+    dataObj[address].value=Number(e.currentTarget.innerText);
+    dataObj[address].formula="";
+    let currCellUpstream=dataObj[address].upstream;
+    for(let i=0;i<currCellUpstream.length;i++){
+    removeFromUpstream(address,currCellUpstream[i]);
+    } 
+    dataObj[address].upstream=[];
+
+    let currCellDownStream=dataObj[address].downstream;
+    for(let i=0;i<currCellDownStream.length;i++){
+      updateDownstreamElements(currCellDownStream[i]);
+      }
+  });//for DI in grid Updateing downstream and upstream 
   oldcell=e.target;
+  
   // console.log(oldcell);
   }
 
-})//selecting cell from grid.
+});//selecting cell from grid.
 
+console.log(dataObj);
 
+function removeFromUpstream(dependent, onWhicItIsDepending){
+  let newDownStream=[];
 
+  let oldDownStream=dataObj[onWhicItIsDepending].downstream; //we go to the downstream of onwhich element depending and remove it from its downstreaml.
+  
+  for(let i=0;i<oldDownStream.length;i++){
+  if(oldDownStream[i] != dependent){ 
+      newDownStream.push(oldDownStream[i]);
+  }
+  }
+  dataObj[onWhicItIsDepending].downstream=newDownStream;
+}
 
-
+function updateDownstreamElements(ele){
+  let valueobj={};
+  
+}
 
 
 
