@@ -116,7 +116,7 @@ grid.addEventListener("click",(e)=>{
 
 });//selecting cell from grid.
 
-// console.log(dataObj);
+console.log(dataObj);
 
 function removeFromUpstream(dependent, onWhicItIsDepending){
   let newDownStream=[];
@@ -133,7 +133,7 @@ function removeFromUpstream(dependent, onWhicItIsDepending){
 
 function updateDownstreamElements(eleAddress){
   let valueobj={};
-  let currCellUpstream=dataObj[eleAddress].upstream;
+  let currCellUpstream=dataObj[eleAddress].upstream;//get (eleAddress) upstream element
   for(let i=0;i<currCellUpstream.length;i++)
    {
      let upstreamCellAddress= currCellUpstream[i]
@@ -142,6 +142,7 @@ function updateDownstreamElements(eleAddress){
      valueobj[upstreamCellAddress]=upstreamCellValue;
    } 
 
+   //geting a formula which element we are updating(eleAddress)
    let currFormula=dataObj[eleAddress].formula;
    let formulaArr=currFormula.split(" ");
 
