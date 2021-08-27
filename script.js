@@ -6,6 +6,9 @@ let rowNumbers=document.querySelector(".row-number");//for row
 let columnTags=document.querySelector(".column-tags");//for column
 let formulaSelectCell=document.querySelector("#select-cell");//for selected cell display
 let grid=document.querySelector(".grid");//for selecting cell
+
+let formulaInput=document.querySelector("#complete-cell");
+
 let oldcell;//save selected cell
 let dataObj={};
 
@@ -28,8 +31,7 @@ for(let i=0;i<menuBarDivTag.length;i++){
       }
     })
 
-
-}//select file edit help
+}//select file edit help//
 
 for(let i=0;i<26;i++){
 // let k=0,count=0,j=0;
@@ -69,15 +71,15 @@ for(let i=1;i<=100;i++){
 
   }
   grid.append(row);
-}//adding grid cell.
+}//adding grid cell.//
 
 grid.addEventListener("click",(e)=>{
 
-  if(!e.target.classList.contains("cell")){
-    formulaSelectCell.value="";
-    oldcell.classList.remove("grid-selected-cell");//removing oldcell if we click other then cell
-    oldcell=undefined;
-  }
+  // if(!e.target.classList.contains("cell")){
+  //   formulaSelectCell.value="";
+  //   oldcell.classList.remove("grid-selected-cell");//removing oldcell if we click other then cell
+  //   oldcell=undefined;
+  // }
 //  else if(e.target.classList.contains("cell")){
 //    let cellAddress= e.target.getAttribute("data-address");
 //    formulaSelectCell.value=cellAddress;
@@ -90,6 +92,7 @@ grid.addEventListener("click",(e)=>{
   
   if(e.target.classList.contains("cell")){
   e.target.classList.add("grid-selected-cell");
+  oldcell=e.target;
   let cellAddress= e.target.getAttribute("data-address");
   formulaSelectCell.value=cellAddress;
   e.target.addEventListener("input",(e)=>{
@@ -109,14 +112,76 @@ grid.addEventListener("click",(e)=>{
       }
   });//for DI(Direct Input) in grid Updateing downstream and upstream 
 
-  oldcell=e.target;
-
-  // console.log(oldcell);
+  // console.log(oldcell.getAttribute("data-address"));//for check which cell is selected
   }
 
-});//selecting cell from grid.
+});//selecting cell from grid.//
 
-console.log(dataObj);
+// console.log(dataObj);
+
+formulaInput.addEventListener("change",(e)=>{
+    
+    let formula= e.currentTarget.value;
+    let selectedCellAddress=oldcell.getAttribute("data-address");//get the address of cell where we put the formula;
+    dataObj[selectedCellAddress].formula=formula;
+    let formulaArr=formula.split(" ");
+    let elementArray=[];//to store the formula element;
+
+    for(let i=0;i<formulaArr.length;i++){
+      if(formulaArr[i] != "+" &&
+         formulaArr[i] != "-" &&
+         formulaArr[i] != "/" &&
+         formulaArr[i] != "*" &&
+         isNaN(Number(formulaArr[i]))  
+      ){
+        elementArray.push(formulaArr[i]);
+      }
+    }
+    
+    let oldUpStream=dataObj[selectedCellAddress].upstream; 
+
+    for(let k=0;k<oldUpStream.length;k++){
+      removeFromUpstream(selectedCellAddress,oldUpStream[k]);
+    }//remove element before updating upstream.
+
+    dataObj[selectedCellAddress].upstream=elementArray;//update upstream.
+
+    for(let j=0;j<elementArray.length;j++){
+        addtoDownstream(selectedCellAddress,elementArray[j]);
+    }//adding our self to the downstream of whichWeAreDepending.
+
+    let valuObj={};
+
+    for(let i=0;i<elementArray.length;i++){
+       let formulaDependency = elementArray[i];
+
+       valuObj[formulaDependency] = dataObj[formulaDependency].value;
+    }
+
+    for(let j=0;j<formulaArr.length;j++){
+      
+      if(valuObj[formulaArr[j]]){
+        formulaArr[j]=valuObj[formulaArr[j]];
+      }
+    }
+
+    // console.log(valuObj);
+    // console.log(formulaArr);
+    formula = formulaArr.join(" ");
+    // console.log(formula);
+    let newVal=eval(formula);
+
+    dataObj[selectedCellAddress].value=newVal;
+
+    let selectedCellDwonstream= dataObj[selectedCellAddress].downstream;
+
+    for(let i=0;i<selectedCellDwonstream.length;i++){
+      updateDownstreamElements(selectedCellDwonstream[i]);
+    }
+
+    oldcell.innerText=newVal;
+    formulaInput.value="";
+});//input through the formula bar and set the formula to the cell;//
 
 function removeFromUpstream(dependent, onWhicItIsDepending){
   let newDownStream=[];
@@ -132,31 +197,33 @@ function removeFromUpstream(dependent, onWhicItIsDepending){
 }
 
 function updateDownstreamElements(eleAddress){
-  let valueobj={};
+  let valobj={};
   let currCellUpstream=dataObj[eleAddress].upstream;//get (eleAddress) upstream element
   for(let i=0;i<currCellUpstream.length;i++)
    {
      let upstreamCellAddress= currCellUpstream[i]
-     let upstreamCellValue=dataObj[eleaAddress].value;
+     let upstreamCellValue=dataObj[upstreamCellAddress].value;
       
-     valueobj[upstreamCellAddress]=upstreamCellValue;
+     valobj[upstreamCellAddress]=upstreamCellValue;
    } 
 
+   console.log(valobj);
    //geting a formula which element we are updating(eleAddress)
    let currFormula=dataObj[eleAddress].formula;
    let formulaArr=currFormula.split(" ");
 
    for(let i=0;i<formulaArr.length;i++){
-     if(valueobj[formulaArr[i]]){
-       formulaArr[i]=valueobj[formulaArr[i]];
+     if(valobj[formulaArr[i]]){
+       formulaArr[i]=valobj[formulaArr[i]];
      }
    }
 
   currFormula=formulaArr.join(" ");
   let newValue=eval(currFormula);
   
+  console.log(newValue);
   dataObj[eleAddress].value=newValue;
-
+  
   let cellOnUI=document.querySelector(`[data-address=${eleAddress}]`);
   cellOnUI.innerText=newValue;
 
@@ -168,9 +235,12 @@ function updateDownstreamElements(eleAddress){
     }
 }
 
+function addtoDownstream(TobeAdded,InwhichWeAreAdding){
+    let reqDownStream=dataObj[InwhichWeAreAdding].downstream;
 
+    reqDownStream.push(TobeAdded);
 
-
+}
 
 
 
