@@ -160,7 +160,7 @@ formulaInput.addEventListener("change",(e)=>{
 
     for(let j=0;j<formulaArr.length;j++){
       
-      if(valuObj[formulaArr[j]]){
+      if(valuObj[formulaArr[j]] != undefined){
         formulaArr[j]=valuObj[formulaArr[j]];
       }
     }
