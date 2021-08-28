@@ -1,4 +1,7 @@
 # Excel-partially-cloned
-#not completed
-formula bar functionality
+# formula bar working
+
+# not completed
+menu bar not working
+
 
