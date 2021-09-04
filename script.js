@@ -65,7 +65,15 @@ for(let i=1;i<=100;i++){
     dataObj[address]={value:"",
             formula:"",
             upstream:[],
-            downstream:[]
+            downstream:[],
+            fontSize:10,
+            fontFamilty:"Arial",
+            fontWeigth:"normal",
+            color:"black",
+            backgroundColor:"white",
+            underline:"none",
+            italics:"normal",
+            textAlign:"left",
                       };
     row.append(cell);
 
@@ -236,7 +244,7 @@ function updateDownstreamElements(eleAddress){
 }
 
 function addtoDownstream(TobeAdded,InwhichWeAreAdding){
-    let reqDownStream=dataObj[InwhichWeAreAdding].downstream;
+    let reqDownStream=dataObj[InwhichWeAreAdding].downstream;//
 
     reqDownStream.push(TobeAdded);
 
